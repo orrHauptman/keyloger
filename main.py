@@ -18,6 +18,7 @@ def get_shift_symbol(n: int) -> str:
 
 is_shift = False
 skip_next_digit = False
+IGNORED_KEYS = {"shift", "right shift", "left shift", "ctrl", "right ctrl", "left ctrl", "alt", "right alt", "left alt"}
 
 def press_event(event: keyboard.KeyboardEvent) -> None:
     global is_shift, skip_next_digit
@@ -41,7 +42,9 @@ def release_event(event: keyboard.KeyboardEvent) -> None:
     global is_shift, skip_next_digit
     print(f"The key is - {event.name}")
 
-    if event.name == "backspace":
+    if event.name in IGNORED_KEYS:
+        return
+    elif event.name == "backspace":
         pass
     elif event.name == "shift":
         is_shift = False
