@@ -1,8 +1,9 @@
 import keyboard
 import os
+from typing import Union
 
-def get_shift_symbol(n: int) -> str:
-    shift_symbols = {
+def get_shift_symbol(n: Union[str , int]) -> str:
+    shift_symbols: dict [Union[str , int] , str]= {
         1: "!",
         2: "@",
         3: "#",
@@ -12,9 +13,21 @@ def get_shift_symbol(n: int) -> str:
         7: "&",
         8: "*",
         9: "(",
-        0: ")"
+        0: ")",
+        '-' : "_",
+        '=' : "+",
+        '[': "{",
+        ']': "}",
+        ';': ":",
+        "'": '"',
+        ',': "<",
+        '.': ">",
+        '/': "?",
+        '\\': "|",
+        '`': "~",
     }
-    return shift_symbols.get(n, str(n))
+
+    return shift_symbols[n]
 
 is_shift = False
 skip_next_digit = False
